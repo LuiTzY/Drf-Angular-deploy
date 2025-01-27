@@ -1,0 +1,58 @@
+
+version: '3'
+
+
+services:
+
+  frontend:
+    depends_on:
+      - backend
+    
+    ports:
+     -"${}:${}" #Colocar los puertos, no se si seran el 3000 o el 80 de nginx
+      
+    build: 
+    #Falta crear el docker file
+      context: ./frontend/
+      dockerfile: backend/Dockerfile
+    
+    networks:
+      - fullstack-net
+  
+  backend:
+    container_name: 
+    depends_on:
+      - db
+    
+    build: 
+    #Falta crear el docker file
+      context: ./backend/
+      dockerfile: backend/Dockerfile
+
+    ports:
+      -"${BACKEND_PORTS}:${BACKEND_PORTS}"
+    networks:
+      - fullstack-net
+    
+    environment:
+      #Faltan colocar las variables de django
+    
+  db:
+    image: mysql:8.4
+    container_name: mysqldb
+    ports:
+      - "3306:3306"
+    
+    networks:
+      - fullstack-net
+    
+    env_file:
+      - path: ./backend/.env
+        required: true
+    environment:
+      - MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+
+networks:
+  fullstack-net:
+    driver: bridge
