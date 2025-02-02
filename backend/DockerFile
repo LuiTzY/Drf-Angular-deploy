@@ -1,0 +1,21 @@
+#Utilizamos la imagen de python con alpine para reducir espacios
+FROM python:3.12.8-alpine3.20
+
+#creamos el workdir
+WORKDIR /app
+
+# Instalamos dependencias del sistema necesarias para mysqlclient
+RUN apk add --no-cache \
+    mariadb-connector-c-dev \
+    gcc \
+    musl-dev 
+
+#copiamos el archivo requirements.txt al workdir de la app
+# COPY ./requirements.txt .
+
+#instalamos las dependencias
+RUN pip install django djangorestframework mysqlclient gunicorn django-environ
+
+EXPOSE 8000
+
+CMD [ "gunicorn", "core.wsgi:application", "0.0.0.0:8000", "--workers 3 " ]
