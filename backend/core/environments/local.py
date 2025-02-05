@@ -17,4 +17,4 @@ DATABASES = {
     }
 }
 
-CORS_ALLOWED_ORIGINS = [ 'http://localhost:4200' ]
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS_DEV", default=["*"])
