@@ -9,10 +9,10 @@ import { HelloResponse } from '../interfaces/hello';
 export class HelloService {
 
   private localUrl: string =  'http://localhost:8000/';
-  private publicUrl: string = 'https://api.example.com/'; 
+  private publicUrl: string = 'https://backend/'; 
   constructor(private httpClient: HttpClient) { }
 
   getHello() {
-    return this.httpClient.get<HelloResponse>(this.localUrl+'hello');
+    return this.httpClient.get<HelloResponse>(this.publicUrl+'hello/');
   }
 }

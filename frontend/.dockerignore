@@ -1,0 +1,7 @@
+.gitignore
+.env
+node_modules
+.editorconfig
+package-lock.json
+.angular 
+.vscode
