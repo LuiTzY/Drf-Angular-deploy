@@ -1,0 +1,1 @@
+openssl req -x509 -newkey rsa:4096 -keyout /usr/share/nginx/html/key.pem -out /usr/share/nginx/html/cert.pem -sha256 -days 3650 -nodes -subj "/C=DO/ST=SantoDomingo/L=SantoDomingo/O=Django-Angular-App/OU=IT/CN=frontend"
