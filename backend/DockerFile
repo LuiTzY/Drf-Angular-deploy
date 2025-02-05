@@ -5,17 +5,20 @@ FROM python:3.12.8-alpine3.20
 WORKDIR /app
 
 # Instalamos dependencias del sistema necesarias para mysqlclient
-RUN apk add --no-cache \
+RUN echo "Instalando las dependencias de la maquina" && apk add --no-cache \
     mariadb-connector-c-dev \
     gcc \
-    musl-dev 
+    musl-dev \
+    openssl 
 
-#copiamos el archivo requirements.txt al workdir de la app
-# COPY ./requirements.txt .
+#copiamos la app al workdir del contenedor
+COPY ./ .
 
 #instalamos las dependencias
-RUN pip install django djangorestframework mysqlclient gunicorn django-environ
+RUN echo "Instalando las deps de python " && pip install django djangorestframework mysqlclient gunicorn django-environ django-cors-headers
 
 EXPOSE 8000
 
-CMD [ "gunicorn", "core.wsgi:application", "0.0.0.0:8000", "--workers 3 " ]
+RUN echo "Estamos generando el certificado para el backend" && sh backend-ssl.sh   
+
+CMD [ "gunicorn", "core.wsgi:application","--bind", "0.0.0.0:8000", "--workers", "3" ]
